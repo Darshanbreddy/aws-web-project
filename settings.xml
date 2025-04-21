@@ -1,30 +1,30 @@
 <settings>
 <servers>
   <server>
-    <id>nextgen-network-devops-CICD</id>
+    <id>nextgen-nextgen-cicd</id>
     <username>aws</username>
     <password>${env.CODEARTIFACT_AUTH_TOKEN}</password>
   </server>
 </servers>
 <profiles>
   <profile>
-    <id>nextgen-network-devops-CICD</id>
+    <id>nextgen-nextgen-cicd</id>
     <activation>
       <activeByDefault>true</activeByDefault>
     </activation>
     <repositories>
       <repository>
-        <id>nextgen-network-devops-CICD</id>
-        <url>https://nextgen-157466815761.d.codeartifact.ap-south-1.amazonaws.com/maven/network-devops-CICD/</url>
+        <id>nextgen-nextgen-cicd</id>
+        <url>https://nextgen-157466815761.d.codeartifact.ap-south-1.amazonaws.com/maven/nextgen-cicd/</url>
       </repository>
     </repositories>
   </profile>
 </profiles>
 <mirrors>
   <mirror>
-    <id>nextgen-network-devops-CICD</id>
-    <name>nextgen-network-devops-CICD</name>
-    <url>https://nextgen-157466815761.d.codeartifact.ap-south-1.amazonaws.com/maven/network-devops-CICD/</url>
+    <id>nextgen-nextgen-cicd</id>
+    <name>nextgen-nextgen-cicd</name>
+    <url>https://nextgen-157466815761.d.codeartifact.ap-south-1.amazonaws.com/maven/nextgen-cicd/</url>
     <mirrorOf>*</mirrorOf>
   </mirror>
 </mirrors>
