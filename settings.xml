@@ -1,32 +1,31 @@
 <settings>
 <servers>
   <server>
-    <id>nextgen-nextgen-cicd</id>
+    <id>ndomin-nextgen</id>
     <username>aws</username>
     <password>${env.CODEARTIFACT_AUTH_TOKEN}</password>
   </server>
 </servers>
 <profiles>
   <profile>
-    <id>nextgen-nextgen-cicd</id>
+    <id>ndomin-nextgen</id>
     <activation>
       <activeByDefault>true</activeByDefault>
     </activation>
     <repositories>
       <repository>
-        <id>nextgen-nextgen-cicd</id>
-        <url>https://nextgen-157466815761.d.codeartifact.ap-south-1.amazonaws.com/maven/nextgen-cicd/</url>
+        <id>ndomin-nextgen</id>
+        <url>https://ndomin-157466815761.d.codeartifact.ap-south-1.amazonaws.com/maven/nextgen/</url>
       </repository>
     </repositories>
   </profile>
 </profiles>
 <mirrors>
   <mirror>
-    <id>nextgen-nextgen-cicd</id>
-    <name>nextgen-nextgen-cicd</name>
-    <url>https://nextgen-157466815761.d.codeartifact.ap-south-1.amazonaws.com/maven/nextgen-cicd/</url>
+    <id>ndomin-nextgen</id>
+    <name>ndomin-nextgen</name>
+    <url>https://ndomin-157466815761.d.codeartifact.ap-south-1.amazonaws.com/maven/nextgen/</url>
     <mirrorOf>*</mirrorOf>
   </mirror>
 </mirrors>
-
 </settings>
