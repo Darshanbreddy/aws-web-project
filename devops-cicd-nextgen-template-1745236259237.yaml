@@ -1,0 +1,293 @@
+---
+Metadata:
+  AWSToolsMetrics:
+    IaC_Generator: "arn:aws:cloudformation:ap-south-1:157466815761:generatedTemplate/4ea4ac50-ec35-4201-8173-b792d6ee454c"
+Resources:
+  IAMRoleCodebuildnextgencicdservicerole:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::IAM::Role"
+    DeletionPolicy: "Delete"
+    Properties:
+      Path: "/service-role/"
+      ManagedPolicyArns:
+      - Ref: "IAMManagedPolicyPolicyserviceroleCodeBuildBasePolicynextgencicdapsouth1"
+      - Ref: "IAMManagedPolicyPolicyserviceroleCodeBuildCloudWatchLogsPolicynextgencicdapsouth1"
+      - Ref: "IAMManagedPolicyPolicyserviceroleCodeBuildCodeConnectionsSourceCredentialsPolicynextgencicdapsouth1157466815761"
+      - Ref: "IAMManagedPolicyPolicycodeartifactnextworkconsumerpolicy"
+      MaxSessionDuration: 3600
+      RoleName: "codebuild-nextgen-cicd-service-role"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Action: "sts:AssumeRole"
+          Effect: "Allow"
+          Principal:
+            Service: "codebuild.amazonaws.com"
+  CodeStarConnectionsConnectionConnection31f75d51c52b460ba9900e20017d3ed1:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::CodeStarConnections::Connection"
+    DeletionPolicy: "Delete"
+    Properties:
+      ConnectionName: "nextgen2"
+      Tags: []
+      ProviderType: "GitHub"
+  IAMRoleNextgencicdcodedeploy:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::IAM::Role"
+    DeletionPolicy: "Delete"
+    Properties:
+      Path: "/"
+      ManagedPolicyArns:
+      - "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"
+      MaxSessionDuration: 3600
+      RoleName: "nextgen_cicd_codedeploy"
+      Description: "Allows CodeDeploy to call AWS services such as Auto Scaling on\
+        \ your behalf."
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Action: "sts:AssumeRole"
+          Effect: "Allow"
+          Principal:
+            Service: "codedeploy.amazonaws.com"
+          Sid: ""
+  IAMInstanceProfileEC2nextworkcicd:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::IAM::InstanceProfile"
+    DeletionPolicy: "Delete"
+    Properties:
+      Path: "/"
+      Roles:
+      - Ref: "IAMRoleEC2nextworkcicd"
+      InstanceProfileName:
+        Ref: "IAMRoleEC2nextworkcicd"
+  IAMRoleEC2nextworkcicd:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::IAM::Role"
+    DeletionPolicy: "Delete"
+    Properties:
+      Path: "/"
+      ManagedPolicyArns:
+      - Ref: "IAMManagedPolicyPolicycodeartifactnextworkconsumerpolicy"
+      MaxSessionDuration: 3600
+      RoleName: "EC2-nextwork-cicd"
+      Description: "Allows EC2 instances to call AWS services on your behalf."
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Action: "sts:AssumeRole"
+          Effect: "Allow"
+          Principal:
+            Service: "ec2.amazonaws.com"
+  CodeArtifactDomainDomainndomin:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::CodeArtifact::Domain"
+    DeletionPolicy: "Delete"
+    Properties:
+      DomainName: "ndomin"
+  IAMManagedPolicyPolicyserviceroleCodeBuildCloudWatchLogsPolicynextgencicdapsouth1:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::IAM::ManagedPolicy"
+    DeletionPolicy: "Delete"
+    Properties:
+      ManagedPolicyName: "CodeBuildCloudWatchLogsPolicy-nextgen-cicd-ap-south-1"
+      Path: "/service-role/"
+      Description: "Policy used in trust relationship with CodeBuild"
+      Groups: []
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Resource:
+          - "arn:aws:logs:ap-south-1:157466815761:log-group:aws/cloudbuild/nextgen-cicd"
+          - "arn:aws:logs:ap-south-1:157466815761:log-group:aws/cloudbuild/nextgen-cicd:*"
+          Action:
+          - "logs:CreateLogGroup"
+          - "logs:CreateLogStream"
+          - "logs:PutLogEvents"
+          Effect: "Allow"
+      Roles:
+      - "codebuild-nextgen-cicd-service-role"
+      Users: []
+  S3BucketNextgencicd:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::S3::Bucket"
+    DeletionPolicy: "Delete"
+    Properties:
+      PublicAccessBlockConfiguration:
+        RestrictPublicBuckets: true
+        IgnorePublicAcls: true
+        BlockPublicPolicy: true
+        BlockPublicAcls: true
+      BucketName: "nextgen-cicd"
+      OwnershipControls:
+        Rules:
+        - ObjectOwnership: "BucketOwnerEnforced"
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+        - BucketKeyEnabled: true
+          ServerSideEncryptionByDefault:
+            SSEAlgorithm: "AES256"
+  IAMManagedPolicyPolicyserviceroleCodeBuildCodeConnectionsSourceCredentialsPolicynextgencicdapsouth1157466815761:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::IAM::ManagedPolicy"
+    DeletionPolicy: "Delete"
+    Properties:
+      ManagedPolicyName: "CodeBuildCodeConnectionsSourceCredentialsPolicy-nextgen-cicd-ap-south-1-157466815761"
+      Path: "/service-role/"
+      Description: "Policy used in trust relationship with CodeBuild"
+      Groups: []
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Resource:
+          - "arn:aws:codestar-connections:ap-south-1:157466815761:connection/31f75d51-c52b-460b-a990-0e20017d3ed1"
+          - "arn:aws:codeconnections:ap-south-1:157466815761:connection/31f75d51-c52b-460b-a990-0e20017d3ed1"
+          Action:
+          - "codestar-connections:GetConnectionToken"
+          - "codestar-connections:GetConnection"
+          - "codeconnections:GetConnectionToken"
+          - "codeconnections:GetConnection"
+          - "codeconnections:UseConnection"
+          Effect: "Allow"
+      Roles:
+      - "codebuild-nextgen-cicd-service-role"
+      Users: []
+  CodeArtifactRepositoryRepositoryndominmavencentralstore:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::CodeArtifact::Repository"
+    DeletionPolicy: "Delete"
+    Properties:
+      RepositoryName: "maven-central-store"
+      Description: "Provides Maven artifacts from Maven Central Repository."
+      ExternalConnections:
+      - "public:maven-central"
+      DomainName:
+        Fn::GetAtt:
+        - "CodeArtifactDomainDomainndomin"
+        - "Name"
+  S3BucketCftemplates1ceodw11yow0vapsouth1:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::S3::Bucket"
+    DeletionPolicy: "Delete"
+    Properties:
+      PublicAccessBlockConfiguration:
+        RestrictPublicBuckets: true
+        IgnorePublicAcls: true
+        BlockPublicPolicy: true
+        BlockPublicAcls: true
+      BucketName: "cf-templates-1ceodw11yow0v-ap-south-1"
+      OwnershipControls:
+        Rules:
+        - ObjectOwnership: "BucketOwnerEnforced"
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+        - BucketKeyEnabled: false
+          ServerSideEncryptionByDefault:
+            SSEAlgorithm: "AES256"
+  IAMManagedPolicyPolicycodeartifactnextworkconsumerpolicy:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::IAM::ManagedPolicy"
+    DeletionPolicy: "Delete"
+    Properties:
+      ManagedPolicyName: "codeartifact-nextwork-consumer-policy."
+      Path: "/"
+      Description: "Provides permissions to read from CodeArtifact. Created as a part\
+        \ of NextWork CICD Pipeline series."
+      Groups: []
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Resource: "*"
+          Action:
+          - "codeartifact:GetAuthorizationToken"
+          - "codeartifact:GetRepositoryEndpoint"
+          - "codeartifact:ReadFromRepository"
+          Effect: "Allow"
+        - Condition:
+            StringEquals:
+              sts:AWSServiceName: "codeartifact.amazonaws.com"
+          Resource: "*"
+          Action: "sts:GetServiceBearerToken"
+          Effect: "Allow"
+      Roles:
+      - "EC2-nextwork-cicd"
+      - "codebuild-nextgen-cicd-service-role"
+      Users: []
+  IAMManagedPolicyPolicyserviceroleCodeBuildBasePolicynextgencicdapsouth1:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::IAM::ManagedPolicy"
+    DeletionPolicy: "Delete"
+    Properties:
+      ManagedPolicyName: "CodeBuildBasePolicy-nextgen-cicd-ap-south-1"
+      Path: "/service-role/"
+      Description: "Policy used in trust relationship with CodeBuild"
+      Groups: []
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Resource:
+          - "arn:aws:logs:ap-south-1:157466815761:log-group:/aws/codebuild/nextgen-cicd"
+          - "arn:aws:logs:ap-south-1:157466815761:log-group:/aws/codebuild/nextgen-cicd:*"
+          Action:
+          - "logs:CreateLogGroup"
+          - "logs:CreateLogStream"
+          - "logs:PutLogEvents"
+          Effect: "Allow"
+        - Resource:
+          - "arn:aws:s3:::codepipeline-ap-south-1-*"
+          Action:
+          - "s3:PutObject"
+          - "s3:GetObject"
+          - "s3:GetObjectVersion"
+          - "s3:GetBucketAcl"
+          - "s3:GetBucketLocation"
+          Effect: "Allow"
+        - Resource:
+          - "arn:aws:s3:::nextgen-cicd"
+          - "arn:aws:s3:::nextgen-cicd/*"
+          Action:
+          - "s3:PutObject"
+          - "s3:GetBucketAcl"
+          - "s3:GetBucketLocation"
+          Effect: "Allow"
+        - Resource:
+          - "arn:aws:codebuild:ap-south-1:157466815761:report-group/nextgen-cicd-*"
+          Action:
+          - "codebuild:CreateReportGroup"
+          - "codebuild:CreateReport"
+          - "codebuild:UpdateReport"
+          - "codebuild:BatchPutTestCases"
+          - "codebuild:BatchPutCodeCoverages"
+          Effect: "Allow"
+      Roles:
+      - "codebuild-nextgen-cicd-service-role"
+      Users: []
+  CodeDeployApplicationNextgencicd:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::CodeDeploy::Application"
+    DeletionPolicy: "Delete"
+    Properties:
+      ApplicationName: "nextgen-cicd"
+      ComputePlatform: "Server"
+  CodeArtifactRepositoryRepositoryndominnextgen:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::CodeArtifact::Repository"
+    DeletionPolicy: "Delete"
+    Properties:
+      DomainName:
+        Fn::GetAtt:
+        - "CodeArtifactDomainDomainndomin"
+        - "Name"
+      Upstreams:
+      - Fn::GetAtt:
+        - "CodeArtifactRepositoryRepositoryndominmavencentralstore"
+        - "Name"
+      RepositoryName: "nextgen"
+  CodeStarConnectionsConnectionConnection5f1a341e0b7548f3b855e7b50b3cdfa6:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::CodeStarConnections::Connection"
+    DeletionPolicy: "Delete"
+    Properties:
+      ConnectionName: "nextgen"
+      Tags: []
+      ProviderType: "GitHub"
